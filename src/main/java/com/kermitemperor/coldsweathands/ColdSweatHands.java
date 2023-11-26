@@ -1,6 +1,7 @@
 package com.kermitemperor.coldsweathands;
 
-import com.kermitemperor.coldsweathands.event.PlayerActionsEvents;
+import com.kermitemperor.coldsweathands.config.ConfigHandler;
+import com.kermitemperor.coldsweathands.event.PlayerActionsEvent;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,7 +17,7 @@ public class ColdSweatHands {
 
     // Directly reference a slf4j logger
     public static final String MOD_ID = "coldsweathands";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public ColdSweatHands() {
         // Register the setup method for modloading
@@ -27,14 +28,16 @@ public class ColdSweatHands {
         // Register ourselves for server and other game events we are interested in
         IEventBus ForgeEventBus = MinecraftForge.EVENT_BUS;
         ForgeEventBus.register(this);
-        ForgeEventBus.register(new PlayerActionsEvents());
+        ForgeEventBus.register(new PlayerActionsEvent());
+        ForgeEventBus.register(new ConfigHandler.ReloadEvent());
+
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         // Some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        ConfigHandler.init();
     }
-
 
 }
