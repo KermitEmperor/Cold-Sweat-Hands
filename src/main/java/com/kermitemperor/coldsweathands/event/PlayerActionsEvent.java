@@ -1,8 +1,6 @@
 package com.kermitemperor.coldsweathands.event;
 
 import com.kermitemperor.coldsweathands.ColdSweatHands;
-import com.momosoftworks.coldsweat.api.util.Temperature;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -27,8 +25,8 @@ public class PlayerActionsEvent {
         if (entity != null && entity.getType().equals(EntityType.PLAYER)) {
             Player player = (Player) entity;
             if (player.getMainHandItem().getItem().equals(Items.STONE)) {
-                double temperature = Temperature.get(player, Temperature.Type.WORLD);
-                player.displayClientMessage(new TextComponent(player.getDisplayName().getString() + ": " + Temperature.convertUnits(temperature, Temperature.Units.MC, Temperature.Units.C, false)), false);
+                //double temperature = Temperature.get(player, Temperature.Type.WORLD);
+                //player.displayClientMessage(new TextComponent(player.getDisplayName().getString() + ": " + Temperature.convertUnits(temperature, Temperature.Units.MC, Temperature.Units.C, false)), false);
                 //player.displayClientMessage(new TextComponent(ConfigHandler.CONFIG.toString()), false);
                 event.setUseItem(Event.Result.DENY);
             }

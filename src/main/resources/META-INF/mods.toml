@@ -53,3 +53,9 @@ description='''${mod_description}'''
    versionRange="${minecraft_version_range}"
    ordering="NONE"
    side="BOTH"
+[[dependencies.coldsweathands]]
+   modId="cold_sweat"
+   mandatory=true
+   versionRange="[2.2.2,)"
+   ordering="AFTER"
+   side="BOTH"
