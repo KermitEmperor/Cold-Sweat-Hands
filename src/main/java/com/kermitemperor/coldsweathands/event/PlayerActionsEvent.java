@@ -14,8 +14,10 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+
+
 @Mod.EventBusSubscriber(modid = ColdSweatHands.MOD_ID)
-public class PlayerActionsEvents {
+public class PlayerActionsEvent {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
@@ -27,6 +29,7 @@ public class PlayerActionsEvents {
             if (player.getMainHandItem().getItem().equals(Items.STONE)) {
                 double temperature = Temperature.get(player, Temperature.Type.WORLD);
                 player.displayClientMessage(new TextComponent(player.getDisplayName().getString() + ": " + Temperature.convertUnits(temperature, Temperature.Units.MC, Temperature.Units.C, false)), false);
+                //player.displayClientMessage(new TextComponent(ConfigHandler.CONFIG.toString()), false);
                 event.setUseItem(Event.Result.DENY);
             }
         }

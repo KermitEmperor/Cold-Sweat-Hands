@@ -6,6 +6,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.kermitemperor.coldsweathands.ColdSweatHands;
+import net.minecraftforge.event.OnDatapackSyncEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import static com.kermitemperor.coldsweathands.ColdSweatHands.LOGGER;
 
 import java.io.File;
 import java.io.FileReader;
@@ -51,15 +54,31 @@ public class ConfigHandler {
         }
     }
 
-    private static void loadConfig(File configFile) {
+    public static void loadConfig(File configFile) {
         try {
             FileReader reader = new FileReader(configFile);
             CONFIG = JsonParser.parseReader(reader).getAsJsonObject();
-            // Process your configuration data
+
 
             reader.close();
+            LOGGER.info("Config loading was succesful!");
         } catch (JsonIOException | JsonSyntaxException | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static class ReloadEvent {
+        @SubscribeEvent
+        public void onReload(OnDatapackSyncEvent event) {
+            try {
+                FileReader reader = new FileReader(CONFIG_PATH + CONFIG_FILE_NAME);
+                CONFIG = JsonParser.parseReader(reader).getAsJsonObject();
+
+                reader.close();
+                LOGGER.info("Config reloading was succesful!");
+            } catch (JsonIOException | JsonSyntaxException | IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
