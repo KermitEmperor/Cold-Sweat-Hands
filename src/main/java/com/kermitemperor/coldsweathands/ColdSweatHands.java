@@ -1,5 +1,6 @@
 package com.kermitemperor.coldsweathands;
 
+import com.kermitemperor.coldsweathands.config.ConfigHandler;
 import com.kermitemperor.coldsweathands.event.PlayerActionsEvents;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.level.block.Blocks;
@@ -28,13 +29,14 @@ public class ColdSweatHands {
         IEventBus ForgeEventBus = MinecraftForge.EVENT_BUS;
         ForgeEventBus.register(this);
         ForgeEventBus.register(new PlayerActionsEvents());
+
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         // Some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        ConfigHandler.init();
     }
-
 
 }
