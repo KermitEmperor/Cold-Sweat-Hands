@@ -1,10 +1,7 @@
 package com.kermitemperor.coldsweathands.config;
 
 
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.kermitemperor.coldsweathands.ColdSweatHands;
 
 import static com.kermitemperor.coldsweathands.ColdSweatHands.LOGGER;
@@ -14,11 +11,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 public class ConfigHandler {
 
     public static JsonObject CONFIG = new JsonObject();
 
-    private static final String CONFIG_FILE_NAME = "coldsweathands_blocks.json";
+    private static final String CONFIG_FILE_NAME = "coldsweathands_limitations.json";
     private static final String CONFIG_PATH = "config/%s/".formatted(ColdSweatHands.MOD_ID);
 
     public static void init() {
@@ -41,11 +39,27 @@ public class ConfigHandler {
     private static void createDefaultConfig(File configFile) {
         try {
             FileWriter writer = new FileWriter(configFile);
-            writer.write(DefaultJSON.DefaultJSONWriter(new JsonObject()).toString());
+
+
+            writer.write(DefS());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String DefS() {
+        return """
+                {
+                  "default_measure": "C",
+                  "example_mod:first_example_block": {"Max": 100, "Min": -100},
+                  "example_mod:second_example_block": {"Max": 100, "Min": -100, "Measure": "F"},
+                  "example_mod:third_example_block": {"Max": 100, "Min": -100, "Measure": "C"},
+                  "example_mod:fourth_example_block": {"Max": 100, "Min": -100, "Measure": "C", "Clickable": true},
+                  "example_mod:first_example_item": {"Max": 100, "Min": -100},
+                  "example_mod:second_example_item": {"Max": 100, "Min": -100, "Measure": "F"},
+                  "example_mod:third_example_item": {"Max": 100, "Min": -100, "Measure": "C"}
+                }""";
     }
 
     public static void loadConfig(File configFile) {
