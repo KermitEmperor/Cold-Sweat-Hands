@@ -1,18 +1,17 @@
 package com.kermitemperor.coldsweathands.event;
 
 import com.kermitemperor.coldsweathands.ColdSweatHands;
-import com.kermitemperor.coldsweathands.config.ConfigHandler;
+import com.kermitemperor.coldsweathands.util.ItemInfo;
 import com.momosoftworks.coldsweat.api.util.Temperature;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import static com.kermitemperor.coldsweathands.ColdSweatHands.LOGGER;
 
 
 @Mod.EventBusSubscriber(modid = ColdSweatHands.MOD_ID)
@@ -24,14 +23,20 @@ public class PlayerActionsEventHandler {
 
         if (entity != null && entity.getType().equals(EntityType.PLAYER)) {
             Player player = (Player) entity;
-            if (player.getMainHandItem().getItem().equals(Items.STONE)) {
-                double temperature = Temperature.get(player, Temperature.Type.WORLD);
-                player.displayClientMessage(new TextComponent(player.getDisplayName().getString() + ": " + Temperature.convertUnits(temperature, Temperature.Units.MC, Temperature.Units.C, false)), false);
-                player.displayClientMessage(new TextComponent(ConfigHandler.CONFIG + event.getSide().name()), false);
-                if (ConfigHandler.CONFIG.get("Test").getAsBoolean()) {
-                    event.setUseItem(Event.Result.DENY);
-                }
+            ItemInfo HandItemInfo = new ItemInfo(player.getMainHandItem().getItem());
+            //ItemInfo BlockItemInfo = new ItemInfo(entity.block);
+            double tempAroundPlayer = Temperature.get(player, Temperature.Type.WORLD);
+            double convertedTempAroundPlayer = Temperature.convertUnits(tempAroundPlayer, Temperature.Units.MC, HandItemInfo.getMeasure(), true);
+
+            //LOGGER.info(BlockItemInfo.getRegistryName().toString());
+            LOGGER.info(String.valueOf(convertedTempAroundPlayer));
+            LOGGER.info(String.valueOf(HandItemInfo.getMin()));
+
+            if ((null != HandItemInfo.getMin()) && HandItemInfo.getMin() > convertedTempAroundPlayer) {
+                event.setUseItem(Event.Result.DENY);
             }
+
+
         }
 
     }

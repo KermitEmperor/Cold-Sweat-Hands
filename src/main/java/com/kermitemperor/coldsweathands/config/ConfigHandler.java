@@ -49,6 +49,7 @@ public class ConfigHandler {
     }
 
     private static String DefS() {
+        //I know it would be "easier" with a json builder but then the recursive formating sucks
         return """
                 {
                   "default_measure": "C",
