@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 public class PlayerActionsEventHandler {
 
     @SubscribeEvent
-    public void blockPlacement(PlayerInteractEvent.RightClickBlock event) {
+    public void blockPlacementItemUse(PlayerInteractEvent.RightClickBlock event) {
         Entity entity = event.getEntity();
 
         if (entity != null && entity.getType().equals(EntityType.PLAYER)) {
