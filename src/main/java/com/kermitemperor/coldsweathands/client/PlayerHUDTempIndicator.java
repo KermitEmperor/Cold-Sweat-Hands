@@ -29,6 +29,7 @@ import static com.kermitemperor.coldsweathands.ColdSweatHands.LOGGER;
 @Mod.EventBusSubscriber(modid = ColdSweatHands.MOD_ID)
 public class PlayerHUDTempIndicator {
     private static int lerp = 0;
+    protected static int distanceFromCenter = -20;
 
 
     @OnlyIn(Dist.CLIENT)
@@ -45,7 +46,7 @@ public class PlayerHUDTempIndicator {
 
         if (blockInfo.getMax() != null) {
             player.displayClientMessage(new TextComponent(String.valueOf(blockInfo.getMax())), true);
-            lerp-= lerp > -20 ? 1 : 0;
+            lerp-= lerp > distanceFromCenter ? 1 : 0;
         } else {
             lerp+= lerp < 0 ? 1 : 0;
         }
@@ -61,8 +62,8 @@ public class PlayerHUDTempIndicator {
             int y = height / 2;
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Math.abs(lerp)/20f);
-            LOGGER.info(String.valueOf(Math.abs(lerp)/20));
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Math.abs(lerp/((float)distanceFromCenter)));
+            LOGGER.info(String.valueOf(Math.abs(lerp/((float)distanceFromCenter))));
             RenderSystem.setShaderTexture(0, COLD_BLOCK);
             GuiComponent.blit(poseStack, x-16 + lerp,y ,0,0,16,16,16,16);
         }

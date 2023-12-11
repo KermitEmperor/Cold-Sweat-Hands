@@ -16,7 +16,7 @@ public class ClientRegisterHud {
 
     @SubscribeEvent
     void registerGuiOverlays(RenderGameOverlayEvent.Post event) {
-        if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             final Minecraft mc = Minecraft.getInstance();
             int minecraftGuiScale = mc.options.guiScale;
             minecraftGuiScale = (minecraftGuiScale != 0 ? minecraftGuiScale : 1);
