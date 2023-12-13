@@ -18,19 +18,17 @@ public class ClientRegisterHud {
     void registerGuiOverlays(RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             final Minecraft mc = Minecraft.getInstance();
-            int minecraftGuiScale = mc.options.guiScale;
-            minecraftGuiScale = (minecraftGuiScale != 0 ? minecraftGuiScale : 1);
 
-            int width = event.getWindow().getWidth();
-            int height = event.getWindow().getHeight();
+            int width = event.getWindow().getGuiScaledWidth();
+            int height = event.getWindow().getGuiScaledHeight();
 
 
             new PlayerHUDTempIndicator.PlayerHUDTemperatureIndicator().render(
                     new ForgeIngameGui(mc),
                     event.getMatrixStack(),
                     event.getPartialTicks(),
-                    width / minecraftGuiScale,
-                    height / minecraftGuiScale
+                    width,
+                    height
             );
         }
     }

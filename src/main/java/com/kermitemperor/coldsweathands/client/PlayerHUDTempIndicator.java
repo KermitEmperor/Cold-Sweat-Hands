@@ -30,6 +30,8 @@ import static com.kermitemperor.coldsweathands.ColdSweatHands.LOGGER;
 public class PlayerHUDTempIndicator {
     private static int lerp = 0;
     protected static int distanceFromCenter = -20;
+
+    @SuppressWarnings("FieldMayBeFinal")
     private static Minecraft mc = Minecraft.getInstance();
 
 
@@ -75,13 +77,17 @@ public class PlayerHUDTempIndicator {
                 return;
 
 
+            poseStack.pushPose();
+
+            poseStack.translate(lerp, 0, 0);
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Math.abs(lerp/((float)distanceFromCenter)));
             RenderSystem.setShaderTexture(0, COLD_BLOCK);
-            GuiComponent.blit(poseStack, x-16 + lerp,y ,0,0,16,16,16,16);
+            GuiComponent.blit(poseStack, x-16,y ,0,0,16,16,16,16);
+
+            poseStack.popPose();
         }
     }
-
 
 }
