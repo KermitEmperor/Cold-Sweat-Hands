@@ -15,7 +15,7 @@ import static com.kermitemperor.coldsweathands.ColdSweatHands.LOGGER;
 public class ClientRegisterHud {
 
     @SubscribeEvent
-    void registerGuiOverlays(RenderGameOverlayEvent.Post event) {
+    void registerGuiOverlays(RenderGameOverlayEvent event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
             final Minecraft mc = Minecraft.getInstance();
 
@@ -23,8 +23,8 @@ public class ClientRegisterHud {
             int height = event.getWindow().getGuiScaledHeight();
 
 
-            new PlayerHUDTempIndicator.PlayerHUDTemperatureIndicator().render(
-                    new ForgeIngameGui(mc),
+            new PlayerHUDTempIndicator().render(
+                    (ForgeIngameGui) mc.gui,
                     event.getMatrixStack(),
                     event.getPartialTicks(),
                     width,

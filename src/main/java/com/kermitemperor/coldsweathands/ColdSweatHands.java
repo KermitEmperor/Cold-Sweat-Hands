@@ -1,6 +1,5 @@
 package com.kermitemperor.coldsweathands;
 
-import com.kermitemperor.coldsweathands.client.PlayerHUDTempIndicator;
 import com.kermitemperor.coldsweathands.config.ConfigHandler;
 import com.kermitemperor.coldsweathands.event.ClientRegisterHud;
 import com.kermitemperor.coldsweathands.event.ConfigReloadEventHandler;
@@ -34,7 +33,6 @@ public class ColdSweatHands {
         ForgeEventBus.register(this);
         ForgeEventBus.register(new PlayerActionsEventHandler());
         ForgeEventBus.register(new ConfigReloadEventHandler());
-        ForgeEventBus.register(new PlayerHUDTempIndicator());
         ForgeEventBus.register(new ClientRegisterHud());
 
 
