@@ -16,7 +16,7 @@ public class ClientRegisterHud {
 
     @SubscribeEvent
     void registerGuiOverlays(RenderGameOverlayEvent.Post event) {
-        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
             final Minecraft mc = Minecraft.getInstance();
 
             int width = event.getWindow().getGuiScaledWidth();

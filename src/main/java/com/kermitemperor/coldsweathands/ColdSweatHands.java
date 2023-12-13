@@ -39,7 +39,6 @@ public class ColdSweatHands {
 
 
 
-
     }
 
     private void setup(final FMLCommonSetupEvent event) {

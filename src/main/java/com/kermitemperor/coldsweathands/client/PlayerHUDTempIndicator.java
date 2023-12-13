@@ -76,7 +76,6 @@ public class PlayerHUDTempIndicator {
             if (mc.options.hideGui || mc.gameMode.getPlayerMode() == GameType.SPECTATOR)
                 return;
 
-
             poseStack.pushPose();
 
             poseStack.translate(lerp, 0, 0);
