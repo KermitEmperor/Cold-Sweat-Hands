@@ -42,7 +42,7 @@ public class PlayerActionsEventHandler {
             }
             if (targetBlockInfo.getInfo() != null) {
                 double convertedTempAroundPlayer = Temperature.convertUnits(tempAroundPlayer, Temperature.Units.MC, targetBlockInfo.getMeasure(), true);
-                if ((targetBlockInfo.getClickable() != null) && targetBlockInfo.getClickable()) {
+                if ((targetBlockInfo.getClickable() != null) && !targetBlockInfo.getClickable()) {
                     if ((null != targetBlockInfo.getMin()) && targetBlockInfo.getMin() > convertedTempAroundPlayer) {
                         event.setUseBlock(Event.Result.DENY);
                     }
@@ -55,5 +55,4 @@ public class PlayerActionsEventHandler {
         }
 
     }
-
 }

@@ -5,6 +5,7 @@ import com.kermitemperor.coldsweathands.ColdSweatHands;
 import com.kermitemperor.coldsweathands.util.ItemInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.momosoftworks.coldsweat.api.util.Temperature;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -22,12 +23,15 @@ import static com.kermitemperor.coldsweathands.ColdSweatHands.LOGGER;
 
 @SuppressWarnings("FieldMayBeFinal")
 public class PlayerHUDTempIndicator implements IIngameOverlay  {
-    private static int lerp = 0;
     @SuppressWarnings("FieldCanBeLocal")
     private static int distanceFromCenter = -20;
     private static Minecraft mc = Minecraft.getInstance();
 
-    private static final ResourceLocation COLD_BLOCK = new ResourceLocation(ColdSweatHands.MOD_ID, "textures/gui/cold.png");
+    private static int lerp = 0;
+
+    private static final ResourceLocation COLD_BLOCK = new ResourceLocation(ColdSweatHands.MOD_ID, "textures/gui/cold_block.png");
+    private static final ResourceLocation HOT_BLOCK = new ResourceLocation(ColdSweatHands.MOD_ID, "textures/gui/hot_block.png");
+    private static ResourceLocation current_texture;
 
     @SuppressWarnings("DataFlowIssue")
     @Override
@@ -49,11 +53,26 @@ public class PlayerHUDTempIndicator implements IIngameOverlay  {
 
 
 
-        if (blockInfo.getMax() != null) {
-            player.displayClientMessage(new TextComponent(String.valueOf(blockInfo.getMax())), true);
-            lerp -= lerp > distanceFromCenter ? 1 : 0;
+        if (blockInfo.getInfo() != null) {
+
+            player.displayClientMessage(new TextComponent(String.valueOf(blockInfo.getInfo())), true);
+
+            double tempAroundPlayer = Temperature.get(player, Temperature.Type.WORLD);
+            double convertedTempAroundPlayer = Temperature.convertUnits(tempAroundPlayer, Temperature.Units.MC, blockInfo.getMeasure(), true);
+
+            if ((blockInfo.getClickable() != null) && !blockInfo.getClickable()) {
+                boolean isTooCold = (null != blockInfo.getMin() && blockInfo.getMin() > convertedTempAroundPlayer);
+                if (isTooCold || (null != blockInfo.getMax() && blockInfo.getMax() < convertedTempAroundPlayer)) {
+                    lerp -= lerp > distanceFromCenter ? 1 : 0;
+                    current_texture = isTooCold ? COLD_BLOCK : HOT_BLOCK;
+                } else {
+                    lerp = 0;
+                }
+            } else {
+                lerp = 0;
+            }
         } else {
-            lerp = 0 ;
+            lerp = 0;
         }
 
         if (mc.options.hideGui || mc.gameMode.getPlayerMode() == GameType.SPECTATOR || lerp == 0)
@@ -65,7 +84,7 @@ public class PlayerHUDTempIndicator implements IIngameOverlay  {
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Math.abs(lerp/((float)distanceFromCenter)));
-        RenderSystem.setShaderTexture(0, COLD_BLOCK);
+        RenderSystem.setShaderTexture(0, current_texture);
 
         GuiComponent.blit(poseStack, x-16,y ,0,0,16,16,16,16);
 
